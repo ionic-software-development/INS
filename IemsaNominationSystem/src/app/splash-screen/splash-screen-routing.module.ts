@@ -19,6 +19,10 @@ const routes: Routes = [
   {
     path: 'nominate',
     loadChildren: () => import('./nominate/nominate.module').then( m => m.NominatePageModule)
+  },
+  {
+    path: 'nominees',
+    loadChildren: () => import('./nominees/nominees.module').then( m => m.NomineesPageModule)
   }
 ];
 
