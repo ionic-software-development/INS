@@ -23,6 +23,10 @@ const routes: Routes = [
   {
     path: 'nominees',
     loadChildren: () => import('./nominees/nominees.module').then( m => m.NomineesPageModule)
+  },
+  {
+    path: 'register-nominee',
+    loadChildren: () => import('./register-nominee/register-nominee.module').then( m => m.RegisterNomineePageModule)
   }
 ];
 

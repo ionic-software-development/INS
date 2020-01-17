@@ -1,9 +1,50 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>nominees</ion-title>
+    <ion-title>Nominees</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+
+  <ion-button [routerLink] = "['/splash-screen', 'register-nominee']">Add New Nominee</ion-button>
+
+  <ion-slides pager="true" [options]="slideOpts">
+    <ion-slide>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>Sticks Moshoeu</ion-card-subtitle>
+          <ion-card-title>Position: Chairperson</ion-card-title>
+        </ion-card-header>
+      
+        <ion-card-content>
+          <p>Number of Nominations: 30</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>Jonathan Mathebula</ion-card-subtitle>
+          <ion-card-title>Position: Deputy Chairperson</ion-card-title>
+        </ion-card-header>
+      
+        <ion-card-content>
+          <p>Number of Nominations: 10</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+    <ion-slide>
+      <ion-card>
+        <ion-card-header>
+          <ion-card-subtitle>Lucky Makgotla</ion-card-subtitle>
+          <ion-card-title>Position: Secretary</ion-card-title>
+        </ion-card-header>
+      
+        <ion-card-content>
+          <p>Number of Nominations: 35</p>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+  </ion-slides>
 
 </ion-content>
