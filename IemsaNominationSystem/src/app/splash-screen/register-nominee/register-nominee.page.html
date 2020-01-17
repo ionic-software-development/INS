@@ -1,9 +1,30 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>register_nominee</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/splash-screen/nominees">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>Nominee Details </ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
+  <ion-item>
+    <ion-label position="floating">First Name</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+  
+  <ion-item>
+    <ion-label position="floating">Last Name</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
 
+  <ion-item>
+    <ion-label position="floating">Position</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+  <ion-button [routerLink] = "['/splash-screen', 'nominees']">
+    Add Nominee
+  </ion-button>
 </ion-content>
