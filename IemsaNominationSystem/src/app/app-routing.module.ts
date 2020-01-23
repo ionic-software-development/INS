@@ -16,7 +16,7 @@ const routes: Routes = [
       },
       {
         path: 'login',
-        loadChildren: () => import('./splash-screen/register/register.module').then( m => m.RegisterPageModule)
+        loadChildren: () => import('./splash-screen/register-scrutineer/register.module').then( m => m.RegisterPageModule)
       },
       {
         path: 'nominate',

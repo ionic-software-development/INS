@@ -10,21 +10,26 @@
 
 <ion-content>
   <ion-item>
-    <ion-label position="floating">First Name</ion-label>
-    <ion-input type="text"></ion-input>
+    <ion-label position="floating" >First Name</ion-label>
+    <ion-input type="text" [(ngModel)] = "nominee.firstName"></ion-input>
   </ion-item>
   
   <ion-item>
-    <ion-label position="floating">Last Name</ion-label>
-    <ion-input type="text"></ion-input>
+    <ion-label position="floating" >Last Name</ion-label>
+    <ion-input type="text" [(ngModel)] = "nominee.lastName"></ion-input>
   </ion-item>
 
   <ion-item>
-    <ion-label position="floating">Position</ion-label>
-    <ion-input type="text"></ion-input>
+    <ion-label position="floating"  >Position</ion-label>
+    <ion-input type="text" [(ngModel)] = "nominee.position"></ion-input>
   </ion-item>
 
-  <ion-button [routerLink] = "['/splash-screen', 'nominees']">
+  <ion-item>
+    <ion-label position="floating" >Total Nominations</ion-label>
+    <ion-input type="numeric" [(ngModel)] = "nominee.nominationCount"></ion-input>
+  </ion-item>
+
+  <ion-button (click) = "registerNominee()">
     Add Nominee
   </ion-button>
 </ion-content>

@@ -13,10 +13,7 @@ export class ScrutineerServiceService {
     lastName: '',
     password: ''
   };
-  private firstName  = '';
-  private lastName = '';
-  private cellphoneNumber = 0;
-  private emailAddress = '';
+
   constructor() { }
   getScrutineer(){
     return this.scrutineer;

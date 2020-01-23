@@ -10,7 +10,7 @@ const routes: Routes = [
   },
   {
     path: 'register',
-    loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule)
+    loadChildren: () => import('./register-scrutineer/register.module').then( m => m.RegisterPageModule)
   },
   {
     path: 'login',
