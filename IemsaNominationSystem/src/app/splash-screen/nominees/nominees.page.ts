@@ -9,11 +9,9 @@ import { Observable } from 'rxjs';
   styleUrls: ['./nominees.page.scss'],
 })
 export class NomineesPage implements OnInit {
-  slideOpts = {
-    initialSlide: 1,
-    speed: 400
-  };
   nomineeList: Observable<any[]>;
+  fileLocation = '/assets/female.png';
+
   constructor(
     nomineeService: NomineeService
   ) {

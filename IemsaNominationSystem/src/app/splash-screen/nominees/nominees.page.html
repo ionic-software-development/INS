@@ -4,22 +4,21 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen>
 
   <ion-button [routerLink] = "['/splash-screen', 'register-nominee']">Add New Nominee</ion-button>
 
-  <ion-slides pager="true" [options]="slideOpts">
-    <ion-slide *ngFor = "let nominee of nomineeList | async">
-      <ion-card>
-        <ion-card-header>
-          <ion-card-subtitle>{{nominee.firstName + nominee.lastName}}</ion-card-subtitle>
-          <ion-card-title>Position: {{nominee.position}}</ion-card-title>
-        </ion-card-header>
-      
-        <ion-card-content>
-          <p>{{nominee.nominationCount}}</p>
-        </ion-card-content>
-      </ion-card>
-    </ion-slide>
-  </ion-slides>
+  <ion-list>
+    <ion-item *ngFor = "let nominee of nomineeList | async">
+      <ion-avatar slot= "start" class="ion-margin-start">
+        <img [src]= "fileLocation">
+      </ion-avatar>
+      <ion-label>
+      <h2>{{nominee.firstName + ' ' + nominee.lastName}}</h2>
+        <h3>Position: {{nominee.position}}</h3>
+      <p>Number of Nominations: {{nominee.nominationCount}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+ 
 </ion-content>

@@ -9,27 +9,53 @@
 </ion-header>
 
 <ion-content>
-  <ion-item>
-    <ion-label position="floating" >First Name</ion-label>
-    <ion-input type="text" [(ngModel)] = "nominee.firstName"></ion-input>
-  </ion-item>
+
+  <form [formGroup]="nominee" (ngSubmit)="registerNominee()">
+    <ion-item>
+      <ion-label position="floating" >First Name</ion-label>
+      <ion-input type="text" formControlName = "firstName"></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label position="floating" >Last Name</ion-label>
+      <ion-input type="text" formControlName = "lastName"></ion-input>
+    </ion-item>
+
+    <ion-list>
+      <ion-radio-group formControlName = "gender">
+        <ion-list-header>
+          <ion-label>Gender</ion-label>
+        </ion-list-header>
+    
+        <ion-item>
+          <ion-label>Male</ion-label>
+          <ion-radio slot="start" value="male"></ion-radio>
+        </ion-item>
+    
+        <ion-item>
+          <ion-label>Female</ion-label>
+          <ion-radio slot="start" value="female"></ion-radio>
+        </ion-item>
+    
+      </ion-radio-group>
+    </ion-list>
+    <ion-item>
+      <ion-label>Position</ion-label>
+      <ion-select interface="popover" formControlName = "position" okText="Confirm" cancelText="Cancel">
+        <ion-select-option value="Chairperson">Chairperson</ion-select-option>
+        <ion-select-option value="Deputy Chairperson">Deputy Chairperson</ion-select-option>
+        <ion-select-option value="Treasurer">Treasurer</ion-select-option>
+        <ion-select-option value="Secretary General">Secretary General</ion-select-option>
+      </ion-select>
+    </ion-item>
   
-  <ion-item>
-    <ion-label position="floating" >Last Name</ion-label>
-    <ion-input type="text" [(ngModel)] = "nominee.lastName"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="floating"  >Position</ion-label>
-    <ion-input type="text" [(ngModel)] = "nominee.position"></ion-input>
-  </ion-item>
-
-  <ion-item>
-    <ion-label position="floating" >Total Nominations</ion-label>
-    <ion-input type="numeric" [(ngModel)] = "nominee.nominationCount"></ion-input>
-  </ion-item>
-
-  <ion-button (click) = "registerNominee()">
+    <ion-item>
+      <ion-label position="floating" >Total Nominations</ion-label>
+      <ion-input type="number" formControlName = "nominationCount"></ion-input>
+    </ion-item>
+  </form>
+  
+  <ion-button (click) = "registerNominee()" [disabled] = "!nominee.valid">
     Add Nominee
   </ion-button>
 </ion-content>

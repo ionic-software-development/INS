@@ -3,4 +3,5 @@ export interface Nominee {
     lastName: string;
     position: string;
     nominationCount: number;
+    gender: string;
 }
