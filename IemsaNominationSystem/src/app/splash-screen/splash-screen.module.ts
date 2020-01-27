@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 import { SplashScreenPageRoutingModule } from './splash-screen-routing.module';
+import {  ReactiveFormsModule } from '@angular/forms';
 
 import { SplashScreenPage } from './splash-screen.page';
 
@@ -13,6 +14,7 @@ import { SplashScreenPage } from './splash-screen.page';
     CommonModule,
     FormsModule,
     IonicModule,
+    ReactiveFormsModule,
     SplashScreenPageRoutingModule
   ],
   declarations: [SplashScreenPage]
