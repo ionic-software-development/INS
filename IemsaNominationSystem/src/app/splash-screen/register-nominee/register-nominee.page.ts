@@ -20,8 +20,7 @@ export class RegisterNomineePage implements OnInit {
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
       gender: ['', Validators.required],
-      position: ['', Validators.required],
-      nominationCount: ['', Validators.required]
+      position: ['', Validators.required]
     });
     this.nomineeToUpdate = nomineeService.initializeNominee();
   }
@@ -30,9 +29,7 @@ export class RegisterNomineePage implements OnInit {
   }
 
   registerNominee() {
-    console.log(this.nominee.value);
     this.nomineeToUpdate = Object.assign(this.nomineeToUpdate, this.nominee.value);
-    console.log(this.nomineeToUpdate);
     this.nomineeService.createNominee(this.nomineeToUpdate);
   }
 }

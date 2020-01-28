@@ -16,11 +16,11 @@ export class NomineesPage implements OnInit {
     nomineeService: NomineeService
   ) {
     this.nomineeList = nomineeService.getNomineeList().valueChanges();
-    console.log('Printing list of nominees');
-    console.log(this.nomineeList);
   }
 
   ngOnInit() {
   }
 
+  revealNominee(id: string) {
+  }
 }

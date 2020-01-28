@@ -4,4 +4,5 @@ export interface Scrutineer {
     cellphoneNumber: number;
     emailAddress: string;
     password: string;
+    createdOn: string;
 }

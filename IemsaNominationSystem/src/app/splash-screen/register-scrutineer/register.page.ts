@@ -21,13 +21,12 @@ export class RegisterPage implements OnInit {
   }
 
   async register() {
-    console.log(this.scrutineer.firstName);
-    try{
+    try {
       const res = await this.firebaseAuth.auth.createUserWithEmailAndPassword(this.scrutineer.emailAddress, this.scrutineer.password);
       this.router.navigate(['/splash-screen/nominees']);
       console.log(res);
     } catch (error) {
       console.dir(error);
     }
-    }
+  }
 }

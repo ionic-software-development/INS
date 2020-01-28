@@ -1,4 +1,5 @@
 export interface Nominee {
+    id: string;
     firstName: string;
     lastName: string;
     position: string;

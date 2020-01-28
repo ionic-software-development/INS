@@ -11,7 +11,8 @@ export class ScrutineerServiceService {
     emailAddress: '',
     firstName: '',
     lastName: '',
-    password: ''
+    password: '',
+    createdOn: new Date().toDateString()
   };
 
   constructor() { }

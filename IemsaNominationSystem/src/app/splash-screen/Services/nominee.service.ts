@@ -9,6 +9,7 @@ import { Router } from '@angular/router';
 })
 export class NomineeService {
   private nominee: Nominee = {
+    id: null,
     nominationCount: null,
     firstName: '',
     lastName: '',
@@ -26,7 +27,6 @@ export class NomineeService {
   }
   // Get an empty object of nominees
   initializeNominee() {
-    console.log(this.nominee);
     return this.nominee;
   }
   // Get a list of nominees

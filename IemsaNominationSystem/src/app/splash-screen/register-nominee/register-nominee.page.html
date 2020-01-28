@@ -48,11 +48,6 @@
         <ion-select-option value="Secretary General">Secretary General</ion-select-option>
       </ion-select>
     </ion-item>
-  
-    <ion-item>
-      <ion-label position="floating" >Total Nominations</ion-label>
-      <ion-input type="number" formControlName = "nominationCount"></ion-input>
-    </ion-item>
   </form>
   
   <ion-button (click) = "registerNominee()" [disabled] = "!nominee.valid">
