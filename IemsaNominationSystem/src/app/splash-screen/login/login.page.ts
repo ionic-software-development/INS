@@ -44,12 +44,9 @@ export class LoginPage implements OnInit {
               }
 
   ngOnInit() {
-    // this.scrutineer = this.scrutineerService.getScrutineer();
   }
 
   login() {
     this.loginService.login(this.scrutineer);
-    // this.loginService.login.(data => console.log(data));
-    //console.log(this.response);
   }
 }

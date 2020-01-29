@@ -11,7 +11,6 @@ export class HelperMethodsService {
   public isValidEmail(formControl: FormControl) {
     let re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     let result = re.test(formControl.value);
-    console.log('testing');
     if (!result) {
       return {
         'email:validation:fail' : true
