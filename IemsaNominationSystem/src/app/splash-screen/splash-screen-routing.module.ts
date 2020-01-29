@@ -27,6 +27,10 @@ const routes: Routes = [
   {
     path: 'register-nominee',
     loadChildren: () => import('./register-nominee/register-nominee.module').then( m => m.RegisterNomineePageModule)
+  },
+  {
+    path: 'register-admin',
+    loadChildren: () => import('./register-admin/register-admin.module').then( m => m.RegisterAdminPageModule)
   }
 ];
 

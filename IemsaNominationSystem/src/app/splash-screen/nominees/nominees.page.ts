@@ -1,7 +1,9 @@
+import { LoginService } from './../Services/auth/login.service';
 import { Component, OnInit } from '@angular/core';
 import { NomineeService } from '../Services/nominee.service';
 import { Nominee } from '../models/nominee';
 import { Observable } from 'rxjs';
+import { FirebaseAuth } from '@angular/fire';
 
 @Component({
   selector: 'app-nominees',
@@ -13,7 +15,8 @@ export class NomineesPage implements OnInit {
   fileLocation = '/assets/female.png';
 
   constructor(
-    nomineeService: NomineeService
+    private nomineeService: NomineeService,
+    private loginService: LoginService
   ) {
     this.nomineeList = nomineeService.getNomineeList().valueChanges();
   }
@@ -22,5 +25,9 @@ export class NomineesPage implements OnInit {
   }
 
   revealNominee(id: string) {
+  }
+
+  logOut() {
+    this.loginService.logoutUser();
   }
 }

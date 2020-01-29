@@ -21,6 +21,10 @@ const routes: Routes = [
       {
         path: 'nominate',
         loadChildren: () => import('./splash-screen/nominate/nominate.module').then(m => m.NominatePageModule)
+      },
+      {
+        path: 'logout',
+        loadChildren: () => import('./splash-screen/splash-screen.module').then(m => m.SplashScreenPageModule)
       }
     ]
   },

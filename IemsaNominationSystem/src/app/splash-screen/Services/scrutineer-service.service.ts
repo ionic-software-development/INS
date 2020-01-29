@@ -12,7 +12,8 @@ export class ScrutineerServiceService {
     firstName: '',
     lastName: '',
     password: '',
-    createdOn: new Date().toDateString()
+    createdOn: new Date().toDateString(),
+    userRole: 'scrutineer',
   };
 
   constructor() { }

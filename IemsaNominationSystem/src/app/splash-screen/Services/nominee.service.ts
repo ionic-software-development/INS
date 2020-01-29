@@ -11,6 +11,7 @@ export class NomineeService {
   private nominee: Nominee = {
     id: null,
     nominationCount: null,
+    createdOn: new Date().toDateString(),
     firstName: '',
     lastName: '',
     position: '',

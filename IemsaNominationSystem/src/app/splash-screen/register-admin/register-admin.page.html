@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/splash-screen/nominees">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>Administrator Details </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <form [formGroup]="administrator" (ngSubmit)="registerAdmin()">
+    <ion-item>
+      <ion-label position="floating" >First Name</ion-label>
+      <ion-input type="text" formControlName = "firstName"></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label position="floating" >Last Name</ion-label>
+      <ion-input type="text" formControlName = "lastName"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating" >E-Mail Address</ion-label>
+      <ion-input type="text" formControlName = "emailAddress"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating" >Password</ion-label>
+      <ion-input type="password" formControlName = "password"></ion-input>
+    </ion-item>
+ 
+  </form>
+  
+  <ion-button (click) = "registerAdmin()" [disabled] = "!administrator.valid">
+    Add Administrator
+  </ion-button>
+</ion-content>
