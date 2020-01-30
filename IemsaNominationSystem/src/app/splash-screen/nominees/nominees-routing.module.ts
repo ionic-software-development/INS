@@ -6,7 +6,11 @@ import { NomineesPage } from './nominees.page';
 const routes: Routes = [
   {
     path: '',
-    component: NomineesPage
+    component: NomineesPage,
+  },
+  {
+    path: ':nomineeId',
+    loadChildren: () => import('./update-nominee/update-nominee.module').then(m => m.UpdateNomineePageModule)
   }
 ];
 

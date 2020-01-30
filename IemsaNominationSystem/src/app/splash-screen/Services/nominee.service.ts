@@ -1,8 +1,12 @@
+import { Platform } from '@ionic/angular';
 import { NotificationHelperService } from './notification-helper.service';
 import { Injectable } from '@angular/core';
 import { Nominee } from '../models/nominee';
-import {AngularFireDatabase, AngularFireList} from '@angular/fire/database';
+import {AngularFireDatabase, AngularFireList, snapshotChanges, AngularFireAction} from '@angular/fire/database';
 import { Router } from '@angular/router';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +23,12 @@ export class NomineeService {
   };
   private dbPath = 'nominees';
   nomineesRef: AngularFireList<Nominee> = null;
+
+  // For retrieving a single element from firebase
+  // https://github.com/angular/angularfire/blob/master/docs/rtdb/querying-lists.md
+  items$: Observable<AngularFireAction<firebase.database.DataSnapshot>[]>;
+  size$: BehaviorSubject<string|null>;
+
   constructor(
     private database: AngularFireDatabase,
     private notService: NotificationHelperService,
@@ -51,5 +61,17 @@ export class NomineeService {
   updateNominee(key: string, nominee: Nominee) {
     this.nomineesRef.update(key, nominee);
   }
-  // Delete a nominee
+  // Get a nominee by supplying id
+  getNominee(id: string) {
+    this.size$ = new BehaviorSubject(null);
+    this.items$ = this.size$.pipe(
+      switchMap(size =>
+        this.database.list('/items', ref =>
+          size ? ref.orderByChild('size').equalTo(size) : ref
+        ).snapshotChanges()
+      )
+    );
+
+    return this.items$;
+  }
 }
