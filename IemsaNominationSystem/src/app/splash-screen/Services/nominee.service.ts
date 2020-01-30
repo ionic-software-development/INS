@@ -1,11 +1,11 @@
+import { Nominee } from './../models/nominee';
 import { Platform } from '@ionic/angular';
 import { NotificationHelperService } from './notification-helper.service';
 import { Injectable } from '@angular/core';
-import { Nominee } from '../models/nominee';
-import {AngularFireDatabase, AngularFireList, snapshotChanges, AngularFireAction} from '@angular/fire/database';
+import {AngularFireDatabase, AngularFireList, snapshotChanges, AngularFireAction, AngularFireObject} from '@angular/fire/database';
 import { Router } from '@angular/router';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, BehaviorSubject, Subject } from 'rxjs';
+import { switchMap, map } from 'rxjs/operators';
 
 
 @Injectable({
@@ -19,15 +19,14 @@ export class NomineeService {
     firstName: '',
     lastName: '',
     position: '',
-    gender: ''
+    gender: '',
   };
   private dbPath = 'nominees';
   nomineesRef: AngularFireList<Nominee> = null;
 
   // For retrieving a single element from firebase
   // https://github.com/angular/angularfire/blob/master/docs/rtdb/querying-lists.md
-  items$: Observable<AngularFireAction<firebase.database.DataSnapshot>[]>;
-  size$: BehaviorSubject<string|null>;
+  nominees: AngularFireObject<any>;
 
   constructor(
     private database: AngularFireDatabase,
@@ -47,9 +46,11 @@ export class NomineeService {
   // Create a new nominee
   createNominee(nominee: Nominee) {
     this.nomineesRef.push(nominee).then(
-      () => {
-        this.notService.presentToast('Successfully Registered New Nominee');
-        this.router.navigate(['/splash-screen/nominees']);
+      (key) => {
+        nominee.id = key.key.toString();
+        this.nomineesRef.update(nominee.id, nominee);
+        // this.notService.presentToast('Successfully Registered New Nominee');
+        // this.router.navigate(['/splash-screen/nominees']);
       }
     ).catch(
       error => {
@@ -63,15 +64,14 @@ export class NomineeService {
   }
   // Get a nominee by supplying id
   getNominee(id: string) {
-    this.size$ = new BehaviorSubject(null);
-    this.items$ = this.size$.pipe(
-      switchMap(size =>
-        this.database.list('/items', ref =>
-          size ? ref.orderByChild('size').equalTo(size) : ref
-        ).snapshotChanges()
-      )
-    );
+    this.nominees = this.database.object(`nominees/` + id);
+    // Use snapshotChanges().map() to store the key
+    return this.nominees;
+  }
 
-    return this.items$;
+  updateNomineeCount(nomineeKey: string, nominee: Nominee, nominationCount: string) {
+    const newNominationCount = parseInt(nominationCount, 10) + nominee.nominationCount;
+    nominee.nominationCount = newNominationCount;
+    this.nomineesRef.update(nomineeKey, nominee);
   }
 }

@@ -20,12 +20,7 @@ export class RegisterPage implements OnInit {
     this.scrutineer = this.scrutineerService.getScrutineer();
   }
 
-  async register() {
-    try {
-      const res = await this.firebaseAuth.auth.createUserWithEmailAndPassword(this.scrutineer.emailAddress, this.scrutineer.password);
-      this.router.navigate(['/splash-screen/nominees']);
-    } catch (error) {
-      console.dir(error);
-    }
+  register() {
+    this.scrutineerService.registerScrutineer(this.scrutineer);
   }
 }

@@ -17,7 +17,7 @@ export class AdminService {
     password: '',
     userRole: 'admin'
   };
-  private dbPath = 'admin';
+  private dbPath = 'admins';
   adminRef: AngularFireList<Administrator> = null;
 
   constructor(

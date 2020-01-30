@@ -31,5 +31,9 @@ export class HelperMethodsService {
     }
     return true;
   }
-
+  // To Do:
+  // input: Destination email address, subject
+  // return: boolean true/false on success/failure of request to send email
+  public sendEmail() {
+  }
 }

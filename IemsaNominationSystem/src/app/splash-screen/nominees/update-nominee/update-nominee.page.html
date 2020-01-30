@@ -1,9 +1,36 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>update-nominee</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/splash-screen/nominees">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>Enter Nomination Count</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-
+  
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Full Names:</ion-card-subtitle>
+      <ion-card-title>
+        {{ newNom.lastName}}
+      </ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      <form>
+        <ion-item>
+          <ion-label position="floating">Number of Nominations</ion-label>
+          <ion-input [(ngModel)]="newNomCount" name="newNomCount" type="number"></ion-input>
+        </ion-item>
+      </form>
+    </ion-card-content>
+    <ion-row class="ion-justify-content-center">
+        <button 
+          (click) = "confirmNomination()">
+          <ion-icon slot="icon-only"  style="font-size: 64px;" name="checkmark">
+          </ion-icon>
+        </button>
+    </ion-row>
+  </ion-card>
 </ion-content>
