@@ -1,3 +1,4 @@
+import { ScrutineerServiceService } from './../scrutineer-service.service';
 import { FormGroup } from '@angular/forms';
 import { NotificationHelperService } from './../notification-helper.service';
 import { Scrutineer } from './../../models/scrutineer.model';
@@ -12,12 +13,13 @@ import { filter } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class LoginService {
-
+  response: any = null;
   constructor(
     private firebaseAuth: AngularFireAuth,
     private router: Router,
     private activatedRouter: ActivatedRoute,
     private notService: NotificationHelperService,
+    private scrutineerService: ScrutineerServiceService
   ) {
     this.router.events.subscribe((ev) => {
       if (ev instanceof NavigationEnd) { 
@@ -32,11 +34,13 @@ export class LoginService {
     await this.firebaseAuth.auth.signInWithEmailAndPassword(scrutineer.value.email.trim(), scrutineer.value.password).
     then(
       value => {
-        this.notService.presentLoading('Signing In...').finally(
-          () => {
-            this.router.navigate(['/splash-screen/nominees']);
-          }
-        );
+         this.response = this.scrutineerService.searchForNominee(value.user.uid);
+        // console.log('Reply from query is: ' + reply);
+        // this.notService.presentLoading('Signing In...').finally(
+        //   () => {
+        //     this.router.navigate(['/splash-screen/nominees']);
+        //   }
+        // );
       }
     )
     .catch(
@@ -63,4 +67,6 @@ export class LoginService {
       }
     });
   }
+
+  
 }

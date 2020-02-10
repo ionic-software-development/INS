@@ -1,9 +1,11 @@
+import { map } from 'rxjs/operators';
+import { Scrutineer } from './../models/scrutineer.model';
 import { Router } from '@angular/router';
 import { NotificationHelperService } from './notification-helper.service';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { Injectable } from '@angular/core';
-import { Scrutineer } from '../models/scrutineer.model';
-import { AngularFireList, AngularFireDatabase } from '@angular/fire/database';
+import { Injectable, NgModule } from '@angular/core';
+import { AngularFireList, AngularFireDatabase, AngularFireObject } from '@angular/fire/database';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,10 @@ import { AngularFireList, AngularFireDatabase } from '@angular/fire/database';
 export class ScrutineerServiceService {
   private dbPath = 'scrutineers';
   scrutineerRef: AngularFireList<Scrutineer> = null;
-
+  public myEventList: Observable<any>;
+  item: Observable<any>;
+  itemRef: AngularFireObject<any>;
+  private searchedScrutineer: Scrutineer = null;
   private scrutineer: Scrutineer = {
     cellphoneNumber: 0,
     emailAddress: '',
@@ -25,10 +30,9 @@ export class ScrutineerServiceService {
     private firebaseAuth: AngularFireAuth,
     private notService: NotificationHelperService,
     private database: AngularFireDatabase,
-    private router: Router
+    private router: Router,
   ) {
     this.scrutineerRef = database.list(this.dbPath);
-
   }
   getScrutineer() {
     return this.scrutineer;
@@ -37,8 +41,8 @@ export class ScrutineerServiceService {
   async registerScrutineer(scrutineer: Scrutineer) {
     await this.firebaseAuth.auth.createUserWithEmailAndPassword(scrutineer.emailAddress, scrutineer.password).
      then(
-       () => {
-         this.scrutineerRef.push(scrutineer);
+       (returned) => {
+         this.scrutineerRef.set(returned.user.uid, scrutineer);
        }
      ).then(
        () => {
@@ -51,5 +55,31 @@ export class ScrutineerServiceService {
        }
      );
    }
-
+  // This method takes a unique email address of a user and will determine whether a user is a scrutineer
+  searchForNominee(uid: string) {
+    this.itemRef = this.database.object('scrutineers/' + uid);
+    let temp = null;
+    this.itemRef.snapshotChanges().subscribe(action => {
+      // console.log(action.type);
+      // console.log(action.key);
+      //console.log(action.payload.val());
+      //this.searchedScrutineer = Object.assign(this.searchedScrutineer, action.payload.val());
+      temp = action.payload.val();
+      if(temp.userRole === 'scrutineer') {
+        this.notService.presentLoading('Signing In Scrutineer...').finally(
+          () => {
+            this.router.navigate(['/splash-screen/scrutineer/scrutineer-home']);
+          }
+        );
+      } else {
+        this.notService.presentLoading('Signing In Administrator...').finally(
+          () => {
+            this.router.navigate(['/splash-screen/nominees']);
+          }
+        );
+      }
+      // return action.payload.val();
+    });
+    //return temp;
+  }
 }
