@@ -60,18 +60,16 @@ export class ScrutineerServiceService {
     this.itemRef = this.database.object('scrutineers/' + uid);
     let temp = null;
     this.itemRef.snapshotChanges().subscribe(action => {
-      // console.log(action.type);
-      // console.log(action.key);
-      //console.log(action.payload.val());
-      //this.searchedScrutineer = Object.assign(this.searchedScrutineer, action.payload.val());
       temp = action.payload.val();
       if(temp.userRole === 'scrutineer') {
+        // Check the type of user. Redirect to relevant 'screen'
         this.notService.presentLoading('Signing In Scrutineer...').finally(
           () => {
             this.router.navigate(['/splash-screen/scrutineer/scrutineer-home']);
           }
         );
       } else {
+        // Sign user into the administrator screen
         this.notService.presentLoading('Signing In Administrator...').finally(
           () => {
             this.router.navigate(['/splash-screen/nominees']);
