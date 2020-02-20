@@ -65,7 +65,8 @@ export class ScrutineerServiceService {
         // Check the type of user. Redirect to relevant 'screen'
         this.notService.presentLoading('Signing In Scrutineer...').finally(
           () => {
-            this.router.navigate(['/splash-screen/scrutineer/scrutineer-home']);
+            // 'splash-screen/scrutineer/scrutineer-home'
+            this.router.navigate(['/splash-screen/scrutineer-home/']);
           }
         );
       } else {
