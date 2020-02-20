@@ -34,13 +34,7 @@ export class LoginService {
     await this.firebaseAuth.auth.signInWithEmailAndPassword(scrutineer.value.email.trim(), scrutineer.value.password).
     then(
       value => {
-         this.response = this.scrutineerService.searchForNominee(value.user.uid);
-        // console.log('Reply from query is: ' + reply);
-        // this.notService.presentLoading('Signing In...').finally(
-        //   () => {
-        //     this.router.navigate(['/splash-screen/nominees']);
-        //   }
-        // );
+         this.response = this.scrutineerService.searchForUser(value.user.uid);
       }
     )
     .catch(

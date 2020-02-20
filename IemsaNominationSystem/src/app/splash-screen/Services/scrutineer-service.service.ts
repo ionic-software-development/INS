@@ -56,29 +56,27 @@ export class ScrutineerServiceService {
      );
    }
   // This method takes a unique email address of a user and will determine whether a user is a scrutineer
-  searchForNominee(uid: string) {
+  searchForUser(uid: string) {
     this.itemRef = this.database.object('scrutineers/' + uid);
     let temp = null;
     this.itemRef.snapshotChanges().subscribe(action => {
       temp = action.payload.val();
       if(temp.userRole === 'scrutineer') {
         // Check the type of user. Redirect to relevant 'screen'
-        this.notService.presentLoading('Signing In Scrutineer...').finally(
-          () => {
-            // 'splash-screen/scrutineer/scrutineer-home'
-            this.router.navigate(['/splash-screen/scrutineer-home/']);
-          }
-        );
+        this.navigateToScrutineer();
       } else {
         // Sign user into the administrator screen
-        this.notService.presentLoading('Signing In Administrator...').finally(
-          () => {
-            this.router.navigate(['/splash-screen/nominees']);
-          }
-        );
+        this.navigateToAdmin();
       }
-      // return action.payload.val();
     });
-    //return temp;
+  }
+
+  navigateToScrutineer(){
+    // 'splash-screen/scrutineer/scrutineer-home'
+    this.router.navigate(['/splash-screen/scrutineer-home/']);
+  }
+
+  navigateToAdmin(){
+    this.router.navigate(['/splash-screen/nominees']);
   }
 }

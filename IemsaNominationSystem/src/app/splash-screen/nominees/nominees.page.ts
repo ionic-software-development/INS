@@ -1,3 +1,4 @@
+import { NotificationHelperService } from './../Services/notification-helper.service';
 import { LoginService } from './../Services/auth/login.service';
 import { Component, OnInit, Input } from '@angular/core';
 import { NomineeService } from '../Services/nominee.service';
@@ -16,11 +17,13 @@ export class NomineesPage implements OnInit {
 
   constructor(
     private nomineeService: NomineeService,
-    private loginService: LoginService
+    private loginService: LoginService,
+    private notService: NotificationHelperService,
   ) {
     this.nomineeList = nomineeService.getNomineeList().valueChanges();
   }
   ngOnInit() {
+    this.notService.presentLoading('Signing In Administrator...');
   }
 
   logOut() {

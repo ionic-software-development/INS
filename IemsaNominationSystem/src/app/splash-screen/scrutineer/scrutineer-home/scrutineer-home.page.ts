@@ -1,3 +1,4 @@
+import { NotificationHelperService } from './../../Services/notification-helper.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -6,10 +7,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./scrutineer-home.page.scss'],
 })
 export class ScrutineerHomePage implements OnInit {
-
-  constructor() { }
+  constructor(
+    private notService: NotificationHelperService
+  ) { }
 
   ngOnInit() {
+    this.notService.presentLoading('Signing In Scrutineer...');
   }
 
 }
