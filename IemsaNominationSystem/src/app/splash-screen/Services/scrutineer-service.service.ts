@@ -16,6 +16,7 @@ export class ScrutineerServiceService {
   public myEventList: Observable<any>;
   item: Observable<any>;
   itemRef: AngularFireObject<any>;
+  adminsRef: AngularFireObject<any>;
   private searchedScrutineer: Scrutineer = null;
   private scrutineer: Scrutineer = {
     cellphoneNumber: 0,
@@ -58,15 +59,29 @@ export class ScrutineerServiceService {
   // This method takes a unique email address of a user and will determine whether a user is a scrutineer
   searchForUser(uid: string) {
     this.itemRef = this.database.object('scrutineers/' + uid);
+    this.adminsRef = this.database.object('admins/' + uid);
+
     let temp = null;
     this.itemRef.snapshotChanges().subscribe(action => {
       temp = action.payload.val();
-      if(temp.userRole === 'scrutineer') {
-        // Check the type of user. Redirect to relevant 'screen'
-        this.navigateToScrutineer();
-      } else {
-        // Sign user into the administrator screen
-        this.navigateToAdmin();
+      console.log('payload is ' + temp);
+      if(!temp) {
+        //user is an scrutineer
+        if(temp.userRole === 'scrutineer') {
+          // Check the type of user. Redirect to relevant 'screen'
+          this.navigateToScrutineer();
+        }
+      }
+    });
+
+    this.adminsRef.snapshotChanges().subscribe(action => {
+      temp = action.payload.val;
+      if(!temp) {
+        //user is an scrutineer
+        if(temp.userRole === 'admin') {
+          // Check the type of user. Redirect to relevant 'screen'
+          this.navigateToAdmin();
+        }
       }
     });
   }

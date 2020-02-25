@@ -35,8 +35,9 @@ export class AdminService {
   async createAdmin(admin: Administrator) {
    await this.firebaseAuth.auth.createUserWithEmailAndPassword(admin.emailAddress, admin.password).
     then(
-      () => {
-        this.adminRef.push(admin);
+      (returned) => {
+        this.adminRef.set(returned.user.uid, admin);
+
       }
     ).then(
       () => {
