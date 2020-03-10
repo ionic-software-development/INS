@@ -61,13 +61,12 @@ export class ScrutineerServiceService {
     this.itemRef = this.database.object('scrutineers/' + uid);
     this.adminsRef = this.database.object('admins/' + uid);
 
-    let temp = null;
     this.itemRef.snapshotChanges().subscribe(action => {
-      temp = action.payload.val();
+      let temp = action.payload.val();
       console.log('payload is ' + temp);
-      if(!temp) {
+      if (temp) {
         //user is an scrutineer
-        if(temp.userRole === 'scrutineer') {
+        if (temp.userRole === 'scrutineer') {
           // Check the type of user. Redirect to relevant 'screen'
           this.navigateToScrutineer();
         }
@@ -75,10 +74,11 @@ export class ScrutineerServiceService {
     });
 
     this.adminsRef.snapshotChanges().subscribe(action => {
-      temp = action.payload.val;
-      if(!temp) {
-        //user is an scrutineer
-        if(temp.userRole === 'admin') {
+      let temp = action.payload.val();
+      console.log('payload for admin is ' + action.payload.val());
+      if (temp) {
+        // user is an scrutineer
+        if (temp.userRole === 'admin') {
           // Check the type of user. Redirect to relevant 'screen'
           this.navigateToAdmin();
         }
