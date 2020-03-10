@@ -1,0 +1,38 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/splash-screen">
+      </ion-back-button>
+    </ion-buttons>
+    <ion-title>Member Details</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="member" (ngSubmit)="registerMember()">
+    <ion-item>
+      <ion-label position="floating" >First Name</ion-label>
+      <ion-input type="text" formControlName = "member_first_name"></ion-input>
+    </ion-item>
+    
+    <ion-item>
+      <ion-label position="floating" >Last Name</ion-label>
+      <ion-input type="text" formControlName = "member_last_name"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating" >E-Mail Address</ion-label>
+      <ion-input type="text" formControlName = "member_email_address"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating" >Password</ion-label>
+      <ion-input type="password" formControlName = "member_password"></ion-input>
+    </ion-item>
+ 
+  </form>
+  
+  <ion-button (click) = "registerMember()" [disabled] = "!member.valid">
+    Add Member
+  </ion-button>
+</ion-content>
