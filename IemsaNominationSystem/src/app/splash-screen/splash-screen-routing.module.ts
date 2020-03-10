@@ -31,9 +31,10 @@ const routes: Routes = [
   {
     path: 'register-admin',
     loadChildren: () => import('./register-admin/register-admin.module').then( m => m.RegisterAdminPageModule)
-  },  {
+  },
+  {
     path: 'scrutineer-home',
-    loadChildren: () => import('./scrutineer/scrutineer-home/scrutineer-home.module').then( m => m.ScrutineerHomePageModule)
+    loadChildren: () => import('./scrutineer-home/scrutineer-home.module').then( m => m.ScrutineerHomePageModule)
   }
 
 ];

@@ -1,4 +1,4 @@
-import { NotificationHelperService } from './../../Services/notification-helper.service';
+import { NotificationHelperService } from '../Services/notification-helper.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

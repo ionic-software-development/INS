@@ -6,4 +6,6 @@ export interface Nominee {
     position: string;
     nominationCount: number;
     gender: string;
+    is_eligible_to_vote: string;
+    vote_count: number;
 }

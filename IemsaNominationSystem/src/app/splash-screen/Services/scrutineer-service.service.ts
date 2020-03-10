@@ -48,7 +48,7 @@ export class ScrutineerServiceService {
      ).then(
        () => {
          this.notService.presentToast('Successfully Registered A New Scrutineer');
-         this.router.navigate(['/splash-screen/nominees']);
+         this.router.navigate(['/splash-screen/scrutineer-home']);
        }
      ).catch(
        error => {

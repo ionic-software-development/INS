@@ -20,6 +20,8 @@ export class NomineeService {
     lastName: '',
     position: '',
     gender: '',
+    is_eligible_to_vote: 'false',
+    vote_count: 0
   };
   private dbPath = 'nominees';
   nomineesRef: AngularFireList<Nominee> = null;
