@@ -5,5 +5,13 @@
 </ion-header>
 
 <ion-content>
-
+  <ion-list>
+    <ion-item *ngFor = "let nominee of nomineeList">
+      <ion-label>
+      <h2>{{nominee.firstName + ' ' + nominee.lastName}}</h2>
+        <h3>Position: {{nominee.position}}</h3>
+      <p>Number of Nominations: {{nominee.nominationCount}}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
 </ion-content>
