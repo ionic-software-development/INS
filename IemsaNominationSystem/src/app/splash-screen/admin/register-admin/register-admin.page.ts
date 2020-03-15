@@ -29,7 +29,6 @@ export class RegisterAdminPage implements OnInit {
 
   registerAdmin() {
     this.adminToUpdate = Object.assign(this.adminToUpdate, this.administrator.value);
-    console.log(this.adminToUpdate);
     this.adminService.createAdmin(this.adminToUpdate);
 
   }

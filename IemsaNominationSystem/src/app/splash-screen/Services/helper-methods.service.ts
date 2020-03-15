@@ -22,12 +22,12 @@ export class HelperMethodsService {
   public isValidPassword(formControl: FormControl) {
     if(formControl.value.length < 5) {
       // length of supplied input less than 5
-      if(!formControl.valid){
+      if(!formControl.valid) {
         console.log(formControl.errors);
       }
       return {
         'password:validation:fail' : true
-      }
+      };
     }
     return true;
   }

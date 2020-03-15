@@ -31,9 +31,6 @@ export class UpdateNomineePage implements OnInit {
     this.activatedRoute.paramMap.subscribe(
       paramMap => {
         if(!paramMap.has('nomineeId')){
-          // redirect
-          // this.router.navigate(['/recipes']);
-          console.log('Does not contain nominee id');
           return;
         }
         // Initialize an empty nominee
@@ -45,11 +42,8 @@ export class UpdateNomineePage implements OnInit {
         this.nominee = this.nomineeService.getNominee(this.nomineeId);
 
         this.nominee.snapshotChanges().subscribe(action => {
-          // console.log(action.type);
-          // console.log(action.key);
           this.newNom = Object.assign(this.newNom, action.payload.val());
         });
-        // console.log(feedback);
       }
     );
   }
@@ -57,8 +51,6 @@ export class UpdateNomineePage implements OnInit {
   }
 
   confirmNomination() {
-    // this.nomineeToUpdate = Object.assign(this.nomineeToUpdate, this.newNom.value);
-    // console.log('Updated nominee count is' + this.newNomCount);
     this.nomineeService.updateNomineeCount(this.nomineeId, this.newNom, this.newNomCount.toString());
   }
 }

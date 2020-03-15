@@ -29,7 +29,6 @@ export class RegisterMemberPage implements OnInit {
 
   registerMember() {
     this.memberToUpdate = Object.assign(this.memberToUpdate, this.member.value);
-    console.log(this.memberToUpdate);
     this.memberService.createMember(this.memberToUpdate);
 
   }

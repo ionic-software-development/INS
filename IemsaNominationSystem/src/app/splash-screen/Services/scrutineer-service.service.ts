@@ -63,7 +63,6 @@ export class ScrutineerServiceService {
 
     this.itemRef.snapshotChanges().subscribe(action => {
       let temp = action.payload.val();
-      console.log('payload is ' + temp);
       if (temp) {
         //user is an scrutineer
         if (temp.userRole === 'scrutineer') {
@@ -75,7 +74,6 @@ export class ScrutineerServiceService {
 
     this.adminsRef.snapshotChanges().subscribe(action => {
       let temp = action.payload.val();
-      console.log('payload for admin is ' + action.payload.val());
       if (temp) {
         // user is an scrutineer
         if (temp.userRole === 'admin') {
