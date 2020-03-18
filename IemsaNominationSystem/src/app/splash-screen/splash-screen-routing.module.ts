@@ -35,7 +35,8 @@ const routes: Routes = [
   {
     path: 'scrutineer-home',
     loadChildren: () => import('./scrutineer-home/scrutineer-home.module').then( m => m.ScrutineerHomePageModule)
-  },  {
+  },
+  {
     path: 'register-member',
     loadChildren: () => import('./register-member/register-member.module').then( m => m.RegisterMemberPageModule)
   },
@@ -43,7 +44,6 @@ const routes: Routes = [
     path: 'vote',
     loadChildren: () => import('./vote/vote.module').then( m => m.VotePageModule)
   }
-
 
 ];
 

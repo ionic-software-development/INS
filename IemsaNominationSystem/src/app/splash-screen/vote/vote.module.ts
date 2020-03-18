@@ -1,3 +1,4 @@
+import { CandidateDetailsPageModule } from './candidate-details/candidate-details.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -13,7 +14,8 @@ import { VotePage } from './vote.page';
     CommonModule,
     FormsModule,
     IonicModule,
-    VotePageRoutingModule
+    VotePageRoutingModule,
+    CandidateDetailsPageModule
   ],
   declarations: [VotePage]
 })
