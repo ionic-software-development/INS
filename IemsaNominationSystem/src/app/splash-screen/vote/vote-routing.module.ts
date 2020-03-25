@@ -11,8 +11,9 @@ const routes: Routes = [
   },
   {
     path: ':candidateId',
-    component: CandidateDetailsPage
+    loadChildren: () => import('./candidate-details/candidate-details.module').then( m => m.CandidateDetailsPageModule)
   }
+
 ];
 
 @NgModule({

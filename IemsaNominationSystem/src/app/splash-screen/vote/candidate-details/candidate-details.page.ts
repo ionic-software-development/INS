@@ -1,6 +1,6 @@
+import { Component, OnInit } from '@angular/core';
 import { NomineeService } from './../../Services/nominee.service';
 import { Nominee } from './../../models/nominee';
-import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { AngularFireObject } from '@angular/fire/database';
 
@@ -10,9 +10,11 @@ import { AngularFireObject } from '@angular/fire/database';
   styleUrls: ['./candidate-details.page.scss'],
 })
 export class CandidateDetailsPage implements OnInit {
+
   private candidateId: string;
   private candidateOb: AngularFireObject<any>;
   public candidate: Nominee;
+  fileLocation = '/assets/person.png';
   constructor(
     private activatedRoute: ActivatedRoute,
     private nomineeService: NomineeService
