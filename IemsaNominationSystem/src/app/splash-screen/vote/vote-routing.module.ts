@@ -7,7 +7,12 @@ const routes: Routes = [
   {
     path: '',
     component: VotePage
+  },
+  {
+    path: ':candidateId',
+    loadChildren: () => import('./candidate-details/candidate-details.module').then( m => m.CandidateDetailsPageModule)
   }
+
 ];
 
 @NgModule({

@@ -1,12 +1,16 @@
 <ion-header>
   <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/splash-screen">
+      </ion-back-button>
+    </ion-buttons>
     <ion-title>vote</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
   <ion-list>
-    <ion-item *ngFor = "let nominee of nomineeList">
+    <ion-item *ngFor = "let nominee of nomineeList" [routerLink] = "['./', nominee.id]">
       <ion-label>
       <h2>{{nominee.firstName + ' ' + nominee.lastName}}</h2>
         <h3>Position: {{nominee.position}}</h3>
