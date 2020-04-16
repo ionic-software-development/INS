@@ -2,7 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { NomineeService } from './../../Services/nominee.service';
 import { Nominee } from './../../models/nominee';
 import { ActivatedRoute } from '@angular/router';
-import { AngularFireObject } from '@angular/fire/database';
+import { AngularFireObject, AngularFireList, AngularFireDatabase } from '@angular/fire/database';
+import { VoteService } from '../../Services/vote.service';
+import * as firebase from 'firebase/app';
+import { Vote } from '../../models/vote.model';
 
 @Component({
   selector: 'app-candidate-details',
@@ -14,13 +17,23 @@ export class CandidateDetailsPage implements OnInit {
   private candidateId: string;
   private candidateOb: AngularFireObject<any>;
   public candidate: Nominee;
+  public voteObject: Vote;
   fileLocation = '/assets/person.png';
+  public dbPath = 'votes';
+
+  voteRef: AngularFireList<Vote> = null;
+
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private nomineeService: NomineeService
+    public activatedRoute: ActivatedRoute,
+    public nomineeService: NomineeService,
+    public voteService: VoteService,
+    public database: AngularFireDatabase,
 
   ) {
     this.candidate = nomineeService.initializeNominee();
+    this.voteObject = voteService.initializeVote();
+    this.voteRef = database.list(this.dbPath);
+
     this.activatedRoute.paramMap.subscribe(
       paramMap => {
         if (!paramMap.has('candidateId')) {
@@ -47,4 +60,25 @@ export class CandidateDetailsPage implements OnInit {
   ngOnInit() {
   }
 
+  requestToVote() {
+    console.log('Voted by: ' + firebase.auth().currentUser.uid + '. Voted for: ' + this.candidateId);
+    this.vote(firebase.auth().currentUser.uid, this.candidateId);
+  }
+
+  vote(uuidVoter: string, uuidRecipient: string) {
+    this.voteObject.voter_uuid = uuidVoter;
+    this.voteObject.nominee_uid = uuidRecipient;
+    this.voteRef.push(this.voteObject).then(
+      (key) => {
+        this.voteRef.update(this.voteObject.voter_uuid, this.voteObject);
+        // 
+        // this.notService.presentToast('Successfully Registered New Nominee');
+        // this.router.navigate(['/splash-screen/nominees']);
+      }
+    ).catch(
+      error => {
+        //this.notService.presentToast(error.message);
+      }
+    );
+  }
 }
