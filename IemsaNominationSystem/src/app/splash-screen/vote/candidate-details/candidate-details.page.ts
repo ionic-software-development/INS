@@ -19,10 +19,11 @@ export class CandidateDetailsPage implements OnInit {
   public candidate: Nominee;
   public voteObject: Vote;
   fileLocation = '/assets/person.png';
+
   public dbPath = 'votes';
-
-  voteRef: AngularFireList<Vote> = null;
-
+  private nomineeDB = 'nominees';
+  private voteRef: AngularFireList<Vote> = null;
+  private nomineeRef: AngularFireList<Nominee> = null;
   constructor(
     public activatedRoute: ActivatedRoute,
     public nomineeService: NomineeService,
@@ -33,7 +34,7 @@ export class CandidateDetailsPage implements OnInit {
     this.candidate = nomineeService.initializeNominee();
     this.voteObject = voteService.initializeVote();
     this.voteRef = database.list(this.dbPath);
-
+    this.nomineeRef = database.list(this.nomineeDB);
     this.activatedRoute.paramMap.subscribe(
       paramMap => {
         if (!paramMap.has('candidateId')) {
@@ -71,7 +72,9 @@ export class CandidateDetailsPage implements OnInit {
     this.voteRef.push(this.voteObject).then(
       (key) => {
         this.voteRef.update(this.voteObject.voter_uuid, this.voteObject);
-        // 
+        // update the nomination
+        this.candidate.vote_count += 1;
+        this.nomineeRef.update(this.candidateId, this.candidate);
         // this.notService.presentToast('Successfully Registered New Nominee');
         // this.router.navigate(['/splash-screen/nominees']);
       }
