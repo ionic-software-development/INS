@@ -6,6 +6,8 @@ import { AngularFireObject, AngularFireList, AngularFireDatabase } from '@angula
 import { VoteService } from '../../Services/vote.service';
 import * as firebase from 'firebase/app';
 import { Vote } from '../../models/vote.model';
+import { Tracker } from '../../models/tracker.model';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-candidate-details',
@@ -17,24 +19,30 @@ export class CandidateDetailsPage implements OnInit {
   private candidateId: string;
   private candidateOb: AngularFireObject<any>;
   public candidate: Nominee;
-  public voteObject: Vote;
   fileLocation = '/assets/person.png';
+  private trackerRef: AngularFireList<Tracker> = null;
+  private trackerDBPath = 'tracker';
+  trackerRefObject: AngularFireObject<any>;
 
+  private trackerOb: Tracker = {
+    position: '',
+    votedMembersUid: ''
+  };
   public dbPath = 'votes';
   private nomineeDB = 'nominees';
   private voteRef: AngularFireList<Vote> = null;
   private nomineeRef: AngularFireList<Nominee> = null;
   constructor(
-    public activatedRoute: ActivatedRoute,
-    public nomineeService: NomineeService,
-    public voteService: VoteService,
-    public database: AngularFireDatabase,
+    private activatedRoute: ActivatedRoute,
+    private nomineeService: NomineeService
 
   ) {
     this.candidate = nomineeService.initializeNominee();
     this.voteObject = voteService.initializeVote();
     this.voteRef = database.list(this.dbPath);
     this.nomineeRef = database.list(this.nomineeDB);
+    this.trackerRef = database.list(this.trackerDBPath);
+
     this.activatedRoute.paramMap.subscribe(
       paramMap => {
         if (!paramMap.has('candidateId')) {
@@ -78,10 +86,45 @@ export class CandidateDetailsPage implements OnInit {
         // this.notService.presentToast('Successfully Registered New Nominee');
         // this.router.navigate(['/splash-screen/nominees']);
       }
+    ).then(
+      () => {
+         // Update the tracker object
+         this.updateTracker();
+         this.updateTrackerObject(this.trackerOb.votedMembersUid);
+      }
     ).catch(
       error => {
         //this.notService.presentToast(error.message);
       }
     );
+  }
+
+  updateTracker(){
+    this.trackerOb.position = this.candidate.position;
+    this.trackerOb.votedMembersUid = firebase.auth().currentUser.uid;
+
+
+    this.trackerRef.push(this.trackerOb).then(
+      (key) => {
+        this.trackerRef.update(this.trackerOb.position, this.trackerOb);
+        this.trackerRefObject = this.database.object('tracker/' + this.trackerOb.position);
+        this.updateTrackerObject(this.trackerOb.votedMembersUid);
+      }
+    );
+
+  }
+
+  updateTrackerObject(memberUid) {
+    this.trackerRefObject.snapshotChanges().subscribe(action => {
+      let temp = action.payload.val();
+      console.log('VoterObject is' + temp.position);
+      if (temp) {
+        // user is an scrutineer
+        // if (temp.userRole === 'admin') {
+        //   // Check the type of user. Redirect to relevant 'screen'
+        //   // this.navigateToAdmin();
+        // }
+      }
+    });
   }
 }
