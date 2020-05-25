@@ -6,6 +6,8 @@ import { AngularFireObject, AngularFireList, AngularFireDatabase } from '@angula
 import { VoteService } from '../../Services/vote.service';
 import * as firebase from 'firebase/app';
 import { Vote } from '../../models/vote.model';
+import { Tracker } from '../../models/tracker';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-candidate-details',
@@ -19,7 +21,7 @@ export class CandidateDetailsPage implements OnInit {
   public candidate: Nominee;
   public voteObject: Vote;
   fileLocation = '/assets/person.png';
-
+  private uidUser = '';
   public dbPath = 'votes';
   private nomineeDB = 'nominees';
   private voteRef: AngularFireList<Vote> = null;
@@ -54,19 +56,21 @@ export class CandidateDetailsPage implements OnInit {
         // this.nominee.snapshotChanges().subscribe(action => {
         //   this.newNom = Object.assign(this.newNom, action.payload.val());
         // });
+        this.uidUser = firebase.auth().currentUser.uid;
       }
     );
+
   }
 
   ngOnInit() {
   }
 
   requestToVote() {
-    console.log('Voted by: ' + firebase.auth().currentUser.uid + '. Voted for: ' + this.candidateId);
-    this.vote(firebase.auth().currentUser.uid, this.candidateId);
+    this.vote(stringify(firebase.auth().currentUser.uid), this.candidateId);
   }
 
   vote(uuidVoter: string, uuidRecipient: string) {
+    console.log('Voted by: ' + this.uidUser + '. Voted for: ' + this.candidateId);
     this.voteObject.voter_uuid = uuidVoter;
     this.voteObject.nominee_uid = uuidRecipient;
     this.voteRef.push(this.voteObject).then(
@@ -82,6 +86,38 @@ export class CandidateDetailsPage implements OnInit {
       error => {
         //this.notService.presentToast(error.message);
       }
+    ).finally(() => {
+      this.getById(this.candidate.position, firebase.auth().currentUser.uid);
+    });
+  }
+
+  getById(position: string, uuidVoter: string) {
+    console.log('In getById(): ' + uuidVoter);
+    let uid = firebase.auth().currentUser.uid;
+    var ref = firebase.database().ref('tracker/' + uuidVoter);
+    let key = null;
+    var tempTracker: Tracker = {
+      position: '',
+    };
+    ref.orderByChild('votedMembersUid').equalTo(uid).on('child_added', (snapshot) => {
+      key = snapshot.key;
+      tempTracker.position = snapshot.val().position;
+    });
+
+    this.updateById(tempTracker, position, uuidVoter);
+  }
+  updateById(tempTracker: Tracker, newPosition: string, uuidVoter: string) {
+    // console.log(this.UPDATEBYIDTAG);
+    var ref = firebase.database().ref('tracker/' + uuidVoter);
+
+    if(tempTracker.position.length < 1) {
+      tempTracker.position = newPosition;
+    } else {
+      tempTracker.position = tempTracker.position + ',' + newPosition;
+    }
+    console.log('Updating : ' + '. New Poition: ' + tempTracker.position);
+    ref.update(
+      tempTracker
     );
   }
 }
