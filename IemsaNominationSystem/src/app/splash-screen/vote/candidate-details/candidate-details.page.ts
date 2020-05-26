@@ -99,9 +99,11 @@ export class CandidateDetailsPage implements OnInit {
     var tempTracker: Tracker = {
       position: '',
     };
-    ref.on('value', (snapshot) => {
+    ref.once('value', (snapshot) => {
       key = snapshot.key;
-      tempTracker.position = snapshot.val().position;
+      if(snapshot.val() != null) {
+        tempTracker.position = snapshot.val().position;
+      }
       this.updateById(tempTracker, position, uuidVoter);
     });
   }
