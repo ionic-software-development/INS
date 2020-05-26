@@ -99,25 +99,23 @@ export class CandidateDetailsPage implements OnInit {
     var tempTracker: Tracker = {
       position: '',
     };
-    ref.orderByChild('votedMembersUid').equalTo(uid).on('child_added', (snapshot) => {
+    ref.on('value', (snapshot) => {
       key = snapshot.key;
       tempTracker.position = snapshot.val().position;
+      this.updateById(tempTracker, position, uuidVoter);
     });
-
-    this.updateById(tempTracker, position, uuidVoter);
   }
   updateById(tempTracker: Tracker, newPosition: string, uuidVoter: string) {
-    // console.log(this.UPDATEBYIDTAG);
+    console.log('In updateById()');
     var ref = firebase.database().ref('tracker/' + uuidVoter);
-
     if(tempTracker.position.length < 1) {
       tempTracker.position = newPosition;
+      console.log('New Poition: ' + tempTracker.position);
+      ref.set(tempTracker);
     } else {
       tempTracker.position = tempTracker.position + ',' + newPosition;
+      console.log('Updating : ' + '. New Poition: ' + tempTracker.position);
+      ref.update(tempTracker);
     }
-    console.log('Updating : ' + '. New Poition: ' + tempTracker.position);
-    ref.update(
-      tempTracker
-    );
   }
 }
