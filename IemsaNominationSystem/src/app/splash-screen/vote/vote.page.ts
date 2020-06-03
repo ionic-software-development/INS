@@ -4,6 +4,7 @@ import { Nominee } from './../models/nominee';
 import { Component, OnInit, NgModule } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NomineeService } from '../Services/nominee.service';
+import { VoteService } from '../Services/vote.service';
 
 @Component({
   selector: 'app-vote',
@@ -12,25 +13,36 @@ import { NomineeService } from '../Services/nominee.service';
 })
 export class VotePage implements OnInit {
 
-  nomineeList: Nominee[] = [];
-
+  public nomineeList: Nominee[] = [];
+  private positionsVoted: string[] = [];
   constructor(
     private nomineeService: NomineeService,
+    private voteService: VoteService
   ) {
-   }
-
-  ngOnInit() {
-    this.populateNomineeList().subscribe(
-      value => {
-        value.action.forEach(
-          tempMember => {
-            if (tempMember.is_eligible_to_vote.toString() === 'true') {
-              this.nomineeList.push(tempMember);
-            }
+    voteService.getPositionsVoted().then(
+      (snapshot) => {
+        this.positionsVoted = snapshot.val().position;
+        // console.log(snapshot.val().position);
+      }
+    ).finally(
+      () => {
+        console.log(this.positionsVoted);
+        this.populateNomineeList().subscribe(
+          value => {
+            value.action.forEach(
+              tempMember => {
+                if (tempMember.is_eligible_to_vote.toString() === 'true' && !this.positionsVoted.includes(tempMember.position)) {
+                  this.nomineeList.push(tempMember);
+                }
+              }
+            );
           }
         );
       }
     );
+   }
+
+  ngOnInit() {
   }
 
   populateNomineeList() {

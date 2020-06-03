@@ -110,13 +110,13 @@ export class CandidateDetailsPage implements OnInit {
   updateById(tempTracker: Tracker, newPosition: string, uuidVoter: string) {
     console.log('In updateById()');
     var ref = firebase.database().ref('tracker/' + uuidVoter);
-    if(tempTracker.position.length < 1) {
+    if (tempTracker.position.length < 1) {
       tempTracker.position = newPosition;
       console.log('New Poition: ' + tempTracker.position);
       ref.set(tempTracker);
     } else {
       tempTracker.position = tempTracker.position + ',' + newPosition;
-      console.log('Updating : ' + '. New Poition: ' + tempTracker.position);
+      // console.log('Updating : ' + '. New Poition: ' + tempTracker.position);
       ref.update(tempTracker);
     }
   }
