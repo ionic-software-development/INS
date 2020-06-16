@@ -9,7 +9,7 @@ export class NotificationHelperService {
   constructor(
     public alertController: AlertController,
     public toastController: ToastController,
-    private progressController: LoadingController
+    private loadingController: LoadingController
   ) { }
 
   async presentAlertConfirm(message: string) {
@@ -39,15 +39,15 @@ export class NotificationHelperService {
   }
 
   // Presenting a progress bar
-  async presentLoading(loadingMessage: string) {
-    const loading = await this.progressController.create({
-      message: loadingMessage,
-      duration: 4000,
-      translucent: true,
-      showBackdrop: true
+  async presentLoading(msg: string) {
+    const loading = await this.loadingController.create({
+      cssClass: 'my-custom-class',
+      message: msg,
+      duration: 2000
     });
     await loading.present();
 
     const { role, data } = await loading.onDidDismiss();
+    console.log('Loading dismissed!');
   }
 }
