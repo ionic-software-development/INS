@@ -5,6 +5,7 @@ import { Component, OnInit, NgModule } from '@angular/core';
 import { Observable } from 'rxjs';
 import { NomineeService } from '../Services/nominee.service';
 import { VoteService } from '../Services/vote.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-vote',
@@ -17,29 +18,37 @@ export class VotePage implements OnInit {
   private positionsVoted: string[] = [];
   constructor(
     private nomineeService: NomineeService,
-    private voteService: VoteService
+    private voteService: VoteService,
+    private route: ActivatedRoute
   ) {
-    voteService.getPositionsVoted().then(
-      (snapshot) => {
-        this.positionsVoted = snapshot.val().position;
-        // console.log(snapshot.val().position);
-      }
-    ).finally(
+    this.route.paramMap.subscribe(
       () => {
-        console.log(this.positionsVoted);
-        this.populateNomineeList().subscribe(
-          value => {
-            value.action.forEach(
-              tempMember => {
-                if (tempMember.is_eligible_to_vote.toString() === 'true' && !this.positionsVoted.includes(tempMember.position)) {
-                  this.nomineeList.push(tempMember);
-                }
+        this.positionsVoted = [];
+        this.nomineeList = [];
+        voteService.getPositionsVoted().then(
+          (snapshot) => {
+            this.positionsVoted = snapshot.val().position;
+            // console.log(snapshot.val().position);
+          }
+        ).finally(
+          () => {
+            console.log(this.positionsVoted);
+            this.populateNomineeList().subscribe(
+              value => {
+                value.action.forEach(
+                  tempMember => {
+                    if (tempMember.is_eligible_to_vote.toString() === 'true' && !this.positionsVoted.includes(tempMember.position)) {
+                      this.nomineeList.push(tempMember);
+                    }
+                  }
+                );
               }
             );
           }
         );
       }
     );
+    
    }
 
   ngOnInit() {

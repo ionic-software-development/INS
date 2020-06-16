@@ -9,6 +9,9 @@
 </ion-header>
 
 <ion-content>
+  <ion-text *ngIf="nomineeList.length == 0" color="secondary">
+    <h1>You Have Voted For Every Available Candidate </h1>
+  </ion-text>
   <ion-list>
     <ion-item *ngFor = "let nominee of nomineeList" [routerLink] = "['./', nominee.id]">
       <ion-label>

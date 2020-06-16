@@ -59,6 +59,9 @@ export class CandidateDetailsPage implements OnInit {
   ngOnInit() {
   }
 
+  refreshNominees() {
+    
+  }
   requestToVote() {
     this.voteService.vote(stringify(firebase.auth().currentUser.uid), this.candidateId,  this.candidate);
   }
