@@ -31,11 +31,10 @@
         Candidates You Have Voted For
       </ion-label>
     </ion-item-divider>
-    <ion-item *ngFor = "let nominee of nomineeListVoted" [routerLink] = "['./', nominee.id]">
+    <ion-item *ngFor = "let nominee of nomineeListVoted" >
       <ion-label>
       <h2>{{nominee.firstName + ' ' + nominee.lastName}}</h2>
-        <h3>Position: {{nominee.position}}</h3>
-      <p>Number of Nominations: {{nominee.nominationCount}}</p>
+      <h3>Position: {{nominee.position}}</h3>
       </ion-label>
     </ion-item>
   </ion-list>
