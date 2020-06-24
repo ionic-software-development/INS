@@ -15,6 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 export class VotePage implements OnInit {
 
   public nomineeList: Nominee[] = [];
+  public nomineeListVoted: Nominee[] = [];
   private positionsVoted: string[] = [];
   constructor(
     private nomineeService: NomineeService,
@@ -32,13 +33,15 @@ export class VotePage implements OnInit {
           }
         ).finally(
           () => {
-            console.log(this.positionsVoted);
             this.populateNomineeList().subscribe(
               value => {
                 value.action.forEach(
                   tempMember => {
                     if (tempMember.is_eligible_to_vote.toString() === 'true' && !this.positionsVoted.includes(tempMember.position)) {
                       this.nomineeList.push(tempMember);
+                    }
+                    if (tempMember.is_eligible_to_vote.toString() === 'true' && this.positionsVoted.includes(tempMember.position)) {
+                      this.nomineeListVoted.push(tempMember);
                     }
                   }
                 );
