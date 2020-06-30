@@ -38,10 +38,14 @@ export class VotePage implements OnInit {
                 value.action.forEach(
                   tempMember => {
                     if (tempMember.is_eligible_to_vote.toString() === 'true' && !this.positionsVoted.includes(tempMember.position)) {
-                      this.nomineeList.push(tempMember);
+                      if(this.nomineeList.filter(obj => obj.id === tempMember.id).length < 1){
+                        this.nomineeList.push(tempMember);
+                      }
                     }
                     if (tempMember.is_eligible_to_vote.toString() === 'true' && this.positionsVoted.includes(tempMember.position)) {
-                      this.nomineeListVoted.push(tempMember);
+                      if(this.nomineeListVoted.filter(obj => obj.id === tempMember.id).length < 1){
+                        this.nomineeListVoted.push(tempMember);
+                      }
                     }
                   }
                 );
