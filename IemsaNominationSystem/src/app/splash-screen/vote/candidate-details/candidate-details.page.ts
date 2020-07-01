@@ -20,7 +20,7 @@ export class CandidateDetailsPage implements OnInit {
   private candidateOb: AngularFireObject<any>;
   public candidate: Nominee;
   public voteObject: Vote;
-  fileLocation = '/assets/person.png';
+  fileLocation = 'assets/think.jpg';
   public dbPath = 'votes';
   constructor(
     public activatedRoute: ActivatedRoute,

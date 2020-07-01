@@ -13,12 +13,22 @@
     <h1>You Have Voted For Every Available Candidate </h1>
   </ion-text>
   <ion-list>
-    <ion-item-divider>
+    <ion-list-header lines="inset">
+      <ion-label>
+        <h3>
+          Candidates To Vote For
+        </h3> 
+      </ion-label>
+    </ion-list-header>
+    <!-- <ion-item-divider>
       <ion-label>
         Eligible Candidates To Vote For
       </ion-label>
-    </ion-item-divider>
+    </ion-item-divider> -->
     <ion-item *ngFor = "let nominee of nomineeList" [routerLink] = "['./', nominee.id]">
+      <ion-avatar slot= "start" class="ion-margin-start">
+        <img [src]= "fileLocation">
+      </ion-avatar>
       <ion-label>
       <h2>{{nominee.firstName + ' ' + nominee.lastName}}</h2>
         <h3>Position: {{nominee.position}}</h3>

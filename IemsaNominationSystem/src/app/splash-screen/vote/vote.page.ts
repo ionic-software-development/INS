@@ -17,6 +17,7 @@ export class VotePage implements OnInit {
   public nomineeList: Nominee[] = [];
   public nomineeListVoted: Nominee[] = [];
   private positionsVoted: string[] = [];
+  fileLocation = 'assets/user.png';
   constructor(
     private nomineeService: NomineeService,
     private voteService: VoteService,
@@ -37,15 +38,20 @@ export class VotePage implements OnInit {
               value => {
                 value.action.forEach(
                   tempMember => {
-                    if (tempMember.is_eligible_to_vote.toString() === 'true' && !this.positionsVoted.includes(tempMember.position)) {
-                      if(this.nomineeList.filter(obj => obj.id === tempMember.id).length < 1){
-                        this.nomineeList.push(tempMember);
+                    if(this.positionsVoted.length < 1){
+                      if (tempMember.is_eligible_to_vote.toString() === 'true' && !this.positionsVoted.includes(tempMember.position)) {
+                        if(this.nomineeList.filter(obj => obj.id === tempMember.id).length < 1){
+                          this.nomineeList.push(tempMember);
+                        }
+                      }
+                      if (tempMember.is_eligible_to_vote.toString() === 'true' && this.positionsVoted.includes(tempMember.position)) {
+                        if(this.nomineeListVoted.filter(obj => obj.id === tempMember.id).length < 1){
+                          this.nomineeListVoted.push(tempMember);
+                        }
                       }
                     }
-                    if (tempMember.is_eligible_to_vote.toString() === 'true' && this.positionsVoted.includes(tempMember.position)) {
-                      if(this.nomineeListVoted.filter(obj => obj.id === tempMember.id).length < 1){
-                        this.nomineeListVoted.push(tempMember);
-                      }
+                    else {
+                      this.nomineeList.push(tempMember);
                     }
                   }
                 );

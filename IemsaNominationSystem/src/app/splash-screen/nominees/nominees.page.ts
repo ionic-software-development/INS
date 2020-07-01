@@ -13,7 +13,7 @@ import { FirebaseAuth } from '@angular/fire';
 })
 export class NomineesPage implements OnInit {
   nomineeList: Observable<any[]>;
-  fileLocation = '/assets/female.png';
+  fileLocation = 'assets/user.png';
 
   constructor(
     private nomineeService: NomineeService,

@@ -42,6 +42,9 @@ export class VoteService {
   getPositionsVoted(): Promise<any> {
     let dummyArray: string[] = [];
     var ref = firebase.database().ref('tracker/' + this.uId);
+    if(typeof ref.once('value') === 'undefined'){
+      return new Promise((value) => {});
+    }
     return ref.once('value');
     // await ref.once('value').then(
     //   (snapshot) => {

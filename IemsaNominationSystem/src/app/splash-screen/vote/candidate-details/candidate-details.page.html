@@ -9,17 +9,23 @@
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <ion-card-header>
-      <ion-card-subtitle>Full Names:</ion-card-subtitle>
-      <ion-card-title>
-        {{ candidate.firstName + ' ' + candidate.lastName}}
-      </ion-card-title>
-    </ion-card-header>
-    <ion-card-content>
-    <ion-button (click) = 'requestToVote()'>
-      <ion-icon [src] = fileLocation ></ion-icon>
-    </ion-button>
-    </ion-card-content>
-  </ion-card>
+  <div class = "row">
+    <div class="col"></div>
+    <div class="col">
+      <ion-card class="card">
+        <ion-img [src]="fileLocation"></ion-img>
+        <ion-card-header>
+          <ion-card-subtitle>Full Names:</ion-card-subtitle>
+          <ion-card-title>{{ candidate.firstName + ' ' + candidate.lastName}}</ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-button (click) = 'requestToVote()'>
+            <ion-icon [src] = 'fileLocation' ></ion-icon>
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </div>
+    <div class="col"></div>
+  </div>
+  
 </ion-content>
