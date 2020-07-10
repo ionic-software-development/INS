@@ -4,24 +4,35 @@
       <img src="assets/logo.PNG" width="40px"  height="40px"/>
     </div>
     <div class="title">
-      <ion-title font-size="10">IEMSA Nomination System</ion-title>
+      <ion-title font-size="10">IEMSA Online Voting</ion-title>
     </div>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <ion-card>
-    <img [src]="imageLocation" />
-    <ion-card-header>
-      <ion-card-subtitle>Welcome</ion-card-subtitle>
-      <ion-card-title>It's A New Ball Game</ion-card-title>
-    </ion-card-header>
+  <ion-grid style="height: 100%">
+    <ion-row justify-content-center align-items-center style="height: 100%">
+      <ion-card>
+        <img [src]="imageLocation" />
+        <ion-card-header>
+          <ion-card-subtitle>Welcome</ion-card-subtitle>
+          <ion-card-title>It's A New Ball Game</ion-card-title>
+        </ion-card-header>
+      
+        <ion-card-content>
+          The Institute of Election Management Services in Africa ( IEMSA ) is a one stop 
+          shop rendering election management services in Southern Africa.
+          <ion-button class="btnLogin" expand="block" fill="outline" [routerLink] ="['./', 'login']">
+            <h4>Login</h4>
+          </ion-button>
+
+          <ion-button class="btnLogin" expand="block" fill="outline" [routerLink] ="['/splash-screen', 'nominees']">
+            <h4>Home</h4>
+          </ion-button>
+        </ion-card-content>
+      </ion-card>
+    </ion-row>
+  </ion-grid>
   
-    <ion-card-content>
-      The Institute of Election Management Services in Africa ( IEMSA ) is a one stop 
-      shop rendering election management services in Southern Africa.
-      <ion-button class="btnLogin" padding="20" expand="block" fill="outline" [routerLink] ="['./', 'login']">Login</ion-button>
-    </ion-card-content>
-  </ion-card>
 
 </ion-content>

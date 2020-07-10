@@ -22,8 +22,8 @@
     </ion-item>
   </form>
 
-  <ion-button (click)="login()" expand="full" [disabled]="!scrutineer.valid">
-    <ion-icon slot="icon-only" name="person-add"></ion-icon>
-    Sign In
+  <ion-button (click)="login()" expand="full" [disabled]="!scrutineer.valid" class="btnSignIn">
+    <ion-icon class="personIcon" slot="icon-only" name="person-add"></ion-icon>
+    <p class="txtSignInBtn">Sign In</p>
   </ion-button>
 </ion-content>

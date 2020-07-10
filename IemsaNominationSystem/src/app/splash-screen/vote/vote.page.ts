@@ -30,7 +30,7 @@ export class VotePage implements OnInit {
         voteService.getPositionsVoted().then(
           (snapshot) => {
             this.positionsVoted = snapshot.val().position;
-            // console.log(snapshot.val().position);
+            console.log(this.positionsVoted);
           }
         ).finally(
           () => {
@@ -38,19 +38,23 @@ export class VotePage implements OnInit {
               value => {
                 value.action.forEach(
                   tempMember => {
-                    if(this.positionsVoted.length < 1){
+                    if(this.positionsVoted.length > 0){
                       if (tempMember.is_eligible_to_vote.toString() === 'true' && !this.positionsVoted.includes(tempMember.position)) {
+                        console.log('Eligible');
                         if(this.nomineeList.filter(obj => obj.id === tempMember.id).length < 1){
                           this.nomineeList.push(tempMember);
+                          console.log('Not voted');
                         }
                       }
                       if (tempMember.is_eligible_to_vote.toString() === 'true' && this.positionsVoted.includes(tempMember.position)) {
                         if(this.nomineeListVoted.filter(obj => obj.id === tempMember.id).length < 1){
                           this.nomineeListVoted.push(tempMember);
+                          console.log('voted');
                         }
                       }
                     }
                     else {
+                      console.log('No positions voted');
                       this.nomineeList.push(tempMember);
                     }
                   }

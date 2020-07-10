@@ -22,6 +22,7 @@ export class CandidateDetailsPage implements OnInit {
   public voteObject: Vote;
   fileLocation = 'assets/think.jpg';
   public dbPath = 'votes';
+  public uidVoter = '';
   constructor(
     public activatedRoute: ActivatedRoute,
     public nomineeService: NomineeService,
@@ -47,7 +48,9 @@ export class CandidateDetailsPage implements OnInit {
         this.candidateOb.snapshotChanges().subscribe(action => {
           this.candidate = Object.assign(this.candidate, action.payload.val());
         });
-        console.log('Candidate is: ' + this.candidate.firstName);
+        this.uidVoter = firebase.auth().currentUser.uid;
+        console.log('Candidate is: ' + this.candidateId);
+        console.log('Voter is: ' + this.uidVoter);
         // this.nominee.snapshotChanges().subscribe(action => {
         //   this.newNom = Object.assign(this.newNom, action.payload.val());
         // });
@@ -59,10 +62,7 @@ export class CandidateDetailsPage implements OnInit {
   ngOnInit() {
   }
 
-  refreshNominees() {
-    
-  }
   requestToVote() {
-    this.voteService.vote(stringify(firebase.auth().currentUser.uid), this.candidateId,  this.candidate);
+    this.voteService.vote(this.uidVoter, this.candidateId,  this.candidate);
   }
 }
