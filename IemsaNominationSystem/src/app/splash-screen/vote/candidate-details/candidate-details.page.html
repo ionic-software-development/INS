@@ -4,7 +4,7 @@
       <ion-back-button defaultHref="/splash-screen/vote">
       </ion-back-button>
     </ion-buttons>
-    <ion-title>candidate-details</ion-title>
+    <ion-title>Candidate Details</ion-title>
   </ion-toolbar>
 </ion-header>
 
@@ -19,13 +19,12 @@
           <ion-card-title>{{ candidate.firstName + ' ' + candidate.lastName}}</ion-card-title>
         </ion-card-header>
         <ion-card-content>
-          <ion-button (click) = 'requestToVote()'>
-            <ion-icon [src] = 'fileLocation' ></ion-icon>
-          </ion-button>
+          <ion-button expand="block" (click) = 'requestToVote()'>
+            <ion-icon class= 'voteIcon'  slot="icon-only" name = "checkbox-outline"></ion-icon>
+            <span class="voteIcon">VOTE</span></ion-button>
         </ion-card-content>
       </ion-card>
     </div>
-    <div class="col"></div>
   </div>
   
 </ion-content>
