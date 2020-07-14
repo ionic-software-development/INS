@@ -2,9 +2,10 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Nominee } from './../../models/nominee';
 import { NomineeService } from './../../Services/nominee.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireObject } from '@angular/fire/database';
+import * as firebase from 'firebase/app';
 
 @Component({
   selector: 'app-update-nominee',
@@ -20,11 +21,14 @@ export class UpdateNomineePage implements OnInit {
   private nomineeToUpdate: Nominee = null;
   constructor(
     private activatedRoute: ActivatedRoute,
+    private router: Router,
     private nomineeService: NomineeService,
     private formBuilder: FormBuilder
   ) {
-
-    // Initialize formGroup
+    if(firebase.auth().currentUser == null){
+      this.router.navigate(['/splash-screen']);
+    } else {
+      // Initialize formGroup
     this.updatedNominee = this.formBuilder.group({
       nominationCount: ['', Validators.required]
     });
@@ -46,6 +50,8 @@ export class UpdateNomineePage implements OnInit {
         });
       }
     );
+    }
+    
   }
   ngOnInit() {
   }

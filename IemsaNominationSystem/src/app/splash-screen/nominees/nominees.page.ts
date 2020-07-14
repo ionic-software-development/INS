@@ -5,7 +5,8 @@ import { NomineeService } from '../Services/nominee.service';
 import { Nominee } from '../models/nominee';
 import { Observable } from 'rxjs';
 import { FirebaseAuth } from '@angular/fire';
-
+import * as firebase from 'firebase/app';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-nominees',
   templateUrl: './nominees.page.html',
@@ -17,13 +18,20 @@ export class NomineesPage implements OnInit {
 
   constructor(
     private nomineeService: NomineeService,
+    private router: Router,
     private loginService: LoginService,
     private notService: NotificationHelperService,
   ) {
-    this.nomineeList = nomineeService.getNomineeList().valueChanges();
+    if(firebase.auth().currentUser == null){
+      this.router.navigate(['/splash-screen']);
+    } else {
+      console.log(firebase.auth().currentUser);
+      this.notService.presentLoading('Signing In Administrator...');
+      this.nomineeList = nomineeService.getNomineeList().valueChanges();
+    }
   }
   ngOnInit() {
-    this.notService.presentLoading('Signing In Administrator...');
+    
   }
 
   logOut() {
