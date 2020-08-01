@@ -6,6 +6,8 @@ import {AngularFireDatabase, AngularFireList, snapshotChanges, AngularFireAction
 import { Router } from '@angular/router';
 import { Observable, BehaviorSubject, Subject } from 'rxjs';
 import { switchMap, map } from 'rxjs/operators';
+import { NominationCount } from '../models/nomination-count';
+import * as firebase from 'firebase/app';
 
 
 @Injectable({
@@ -24,8 +26,9 @@ export class NomineeService {
     vote_count: 0
   };
   private dbPath = 'nominees';
+  public ConfirmedNominationsCountPath = 'confirmedNominations/';
   nomineesRef: AngularFireList<Nominee> = null;
-
+  public ConfirmedNominees: NominationCount = new NominationCount();
   // For retrieving a single element from firebase
   // https://github.com/angular/angularfire/blob/master/docs/rtdb/querying-lists.md
   nominees: AngularFireObject<any>;
@@ -71,9 +74,61 @@ export class NomineeService {
     return this.nominees;
   }
 
+  getConfirmedNominees(scrutineerId: string, nomineeId: string){
+    var ref = firebase.database().ref('nominationTracker/' + scrutineerId);
+    let key = null;
+    var tempNominationCount: NominationCount = {
+      confirmedNominees: '',
+    };
+    ref.once('value', (snapshot) => {
+      key = snapshot.key;
+      if(snapshot.val() != null) {
+        // We now have our nominations
+        tempNominationCount.confirmedNominees = snapshot.val().confirmedNominees;
+      }
+      this.updateNominations(tempNominationCount, nomineeId)
+    });
+  }
+
+  updateNominations(nominationsCount: NominationCount, nomineeId: string) {
+    let scrutineerId = firebase.auth().currentUser.uid;
+    var ref = firebase.database().ref('nominationTracker/' + scrutineerId);
+    if (nominationsCount.confirmedNominees.length < 1) {
+      nominationsCount.confirmedNominees = nomineeId;
+      ref.set(nominationsCount).finally( () => {
+        this.router.navigate(['/splash-screen/nominees']);
+      });
+    } 
+    else {
+      nominationsCount.confirmedNominees = nominationsCount.confirmedNominees + ',' + nomineeId;
+      ref.update(nominationsCount).then(
+        () => {
+          this.notService.presentLoadingForNomination()
+        }
+      ).finally(() => {
+        this.router.navigate(['/splash-screen/nominees']);
+      });
+    }
+  }
   updateNomineeCount(nomineeKey: string, nominee: Nominee, nominationCount: string) {
     const newNominationCount = parseInt(nominationCount, 10) + nominee.nominationCount;
+    let scrutineerId = firebase.auth().currentUser.uid;
+    this.getConfirmedNominees(scrutineerId, nomineeKey);
     nominee.nominationCount = newNominationCount;
     this.nomineesRef.update(nomineeKey, nominee);
+  }
+
+  getScrutineerId() {
+    return firebase.auth().currentUser.uid.toString();
+  }
+
+  getNomineesNominated(): Promise<any> {
+    let scrutineerId = firebase.auth().currentUser.uid.toString();
+    let dummyArray: string[] = [];
+    var ref = firebase.database().ref('nominationTracker/' + scrutineerId);
+    if(typeof ref.once('value') === 'undefined'){
+      return new Promise((value) => {});
+    }
+    return ref.once('value');
   }
 }

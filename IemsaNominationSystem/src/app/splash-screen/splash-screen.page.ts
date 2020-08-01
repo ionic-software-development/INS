@@ -6,7 +6,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./splash-screen.page.scss'],
 })
 export class SplashScreenPage implements OnInit {
-  public imageLocation = 'assets/full-logo.jpg';
+  public imageLocation = 'assets/full-logo.png';
   constructor() { }
 
   ngOnInit() {

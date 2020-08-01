@@ -40,11 +40,8 @@ export class LoginService {
     .catch(
       error => {
         var errorMessage = error.message;
-        if (error.code === 'auth/invalid-email') {
           this.notService.presentToast(error.message);
-        } else {
-          console.log(errorMessage);
-        }
+
       });
   }
 

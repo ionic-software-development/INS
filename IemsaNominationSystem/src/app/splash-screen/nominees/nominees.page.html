@@ -7,13 +7,29 @@
   </ion-toolbar>
 </ion-header>
 <ion-content fullscreen>
-
-  <!-- List Headers in Lists -->
 <ion-list>
-  <ion-list-header lines="inset">
-    <ion-label>Party Nominees</ion-label>
-  </ion-list-header>
-  <ion-item *ngFor = "let nominee of nomineeList | async" [routerLink] = "['./', nominee.id]">
+  <ion-item-divider>
+    <ion-label>
+      Unconfirmed Nominations
+    </ion-label>
+  </ion-item-divider>
+  <ion-item *ngFor = "let nominee of nomineeList" [routerLink] = "['./', nominee.id]">
+    <ion-avatar slot= "start" class="ion-margin-start">
+      <img [src]= "fileLocation">
+    </ion-avatar>
+    <ion-label>
+    <h2>{{nominee.firstName + ' ' + nominee.lastName}}</h2>
+      <h3>Position: {{nominee.position}}</h3>
+    <p>Number of Nominations: {{nominee.nominationCount}}</p>
+    </ion-label>
+  </ion-item>
+
+  <ion-item-divider>
+    <ion-label>
+      Confirmed Nominations
+    </ion-label>
+  </ion-item-divider>
+  <ion-item *ngFor = "let nominee of nomineeListNominated">
     <ion-avatar slot= "start" class="ion-margin-start">
       <img [src]= "fileLocation">
     </ion-avatar>

@@ -34,7 +34,6 @@ export class LoginPage implements OnInit {
               private firebaseAuth: AngularFireAuth,
               private router: Router,
               private helperMethods: HelperMethodsService,
-              private notificationHelper: NotificationHelperService,
               private loginService: LoginService,
               private formBuilder: FormBuilder) {
                 this.scrutineer = this.formBuilder.group({

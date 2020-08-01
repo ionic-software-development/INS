@@ -2,6 +2,7 @@ import { AdminService } from './../Services/admin.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Administrator } from './../models/administrator.model';
 import { Component, OnInit } from '@angular/core';
+import { HelperMethodsService } from '../Services/helper-methods.service';
 
 @Component({
   selector: 'app-register-admin',
@@ -14,13 +15,14 @@ export class RegisterAdminPage implements OnInit {
 
   constructor(
       private adminService: AdminService,
-      private formBuilder: FormBuilder
+      private formBuilder: FormBuilder,
+      private helperMethods: HelperMethodsService,
   ) {
     this.administrator = this.formBuilder.group({
       firstName: ['', Validators.required],
       lastName: ['', Validators.required],
-      password: ['', Validators.required],
-      emailAddress: ['', Validators.email]
+      emailAddress: ['', Validators.email],
+      password: ['', helperMethods.isValidPassword],
     });
     this.adminToUpdate = adminService.initializeAdministrator();
   }

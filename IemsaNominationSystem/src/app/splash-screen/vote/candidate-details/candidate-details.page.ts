@@ -49,11 +49,6 @@ export class CandidateDetailsPage implements OnInit {
           this.candidate = Object.assign(this.candidate, action.payload.val());
         });
         this.uidVoter = firebase.auth().currentUser.uid;
-        console.log('Candidate is: ' + this.candidateId);
-        console.log('Voter is: ' + this.uidVoter);
-        // this.nominee.snapshotChanges().subscribe(action => {
-        //   this.newNom = Object.assign(this.newNom, action.payload.val());
-        // });
       }
     );
 

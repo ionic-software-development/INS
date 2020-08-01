@@ -6,35 +6,83 @@ import { Nominee } from '../models/nominee';
 import { Observable } from 'rxjs';
 import { FirebaseAuth } from '@angular/fire';
 import * as firebase from 'firebase/app';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
+import { NominationCount } from '../models/nomination-count';
+import { map } from 'rxjs/operators';
 @Component({
   selector: 'app-nominees',
   templateUrl: './nominees.page.html',
   styleUrls: ['./nominees.page.scss'],
 })
 export class NomineesPage implements OnInit {
-  nomineeList: Observable<any[]>;
-  fileLocation = 'assets/user.png';
-
+  public nomineeList: Nominee[] = [];
+  public nomineeListNominated: Nominee[] = [];
+  public fileLocation = 'assets/user.png';
+  public NominationCountObject: NominationCount;
+  public confirmedNomineesList: Observable<any[]>;
+  public nomineesNominated: string[] = [];
   constructor(
     private nomineeService: NomineeService,
     private router: Router,
-    private loginService: LoginService,
     private notService: NotificationHelperService,
-  ) {
-    if(firebase.auth().currentUser == null){
-      this.router.navigate(['/splash-screen']);
-    } else {
-      console.log(firebase.auth().currentUser);
+    private route: ActivatedRoute
+    
+    ) {
+      if(firebase.auth().currentUser == null){
+        this.router.navigate(['/splash-screen']);
+      } 
       this.notService.presentLoading('Signing In Administrator...');
-      this.nomineeList = nomineeService.getNomineeList().valueChanges();
-    }
+      this.route.paramMap.subscribe(
+      () => {
+        this.nomineeList = [];
+      this.nomineeService.getNomineesNominated().then(
+        (snapshot) => {
+          if(snapshot.val() != null){
+            this.nomineesNominated = snapshot.val().confirmedNominees;
+          }
+        }
+      ).then(
+        () => {
+            // Scrutineer has already nominated for a user
+            this.populateNomineeList().subscribe(
+              (value) => {
+                value.action.forEach(
+                  tempNominee => {
+                    if(this.nomineesNominated.length > 0){
+                      // Nominated for someone
+                      if (!this.nomineesNominated.includes(tempNominee.id)) {
+                        if(this.nomineeList.filter(obj => obj.id === tempNominee.id).length < 1){
+                          this.nomineeList.push(tempNominee);
+                        }
+                      }
+
+                      if (this.nomineesNominated.includes(tempNominee.id)) {
+                        if(this.nomineeListNominated.filter(obj => obj.id === tempNominee.id).length < 1){
+                          this.nomineeListNominated.push(tempNominee);
+                        }
+                      }
+                    }else {
+                      // Not nominated
+                      this.nomineeList.push(tempNominee);
+                    }
+                  }
+                )
+              }
+            )
+          }
+      )
+      }
+    );
   }
   ngOnInit() {
     
   }
 
-  logOut() {
-    this.loginService.logoutUser();
+  populateNomineeList() {
+    return this.nomineeService.getNomineeList().valueChanges().pipe(
+      map(action => {
+        return { action };
+      })
+    );
   }
 }

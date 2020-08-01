@@ -3,8 +3,6 @@ import { Vote } from '../models/vote.model';
 import { AngularFireList, AngularFireDatabase, AngularFireObject } from '@angular/fire/database';
 import { NotificationHelperService } from './notification-helper.service';
 import * as firebase from 'firebase/app';
-import { splitAtColon } from '@angular/compiler/src/util';
-import { stringify } from 'querystring';
 import { Nominee } from '../models/nominee';
 import { Tracker } from '../models/tracker';
 import { Router } from '@angular/router';
@@ -65,7 +63,6 @@ export class VoteService {
   }
 
   getById(position: string, uuidVoter: string) {
-    console.log('In getById(): ' + uuidVoter);
     let uid = firebase.auth().currentUser.uid;
     var ref = firebase.database().ref('tracker/' + uuidVoter);
     let key = null;
@@ -81,7 +78,6 @@ export class VoteService {
     });
   }
   updateById(tempTracker: Tracker, newPosition: string, uuidVoter: string) {
-    console.log('In updateById(): ' + uuidVoter);
     var ref = firebase.database().ref('tracker/' + uuidVoter);
     if (tempTracker.position.length < 1) {
       tempTracker.position = newPosition;
@@ -90,7 +86,6 @@ export class VoteService {
       });
     } else {
       tempTracker.position = tempTracker.position + ',' + newPosition;
-      // console.log('Updating : ' + '. New Poition: ' + tempTracker.position);
       ref.update(tempTracker).finally(() => {
         this.router.navigate(['/splash-screen/vote']);
       });

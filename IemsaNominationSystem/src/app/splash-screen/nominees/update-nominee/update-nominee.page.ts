@@ -6,6 +6,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireObject } from '@angular/fire/database';
 import * as firebase from 'firebase/app';
+import { NotificationHelperService } from '../../Services/notification-helper.service';
 
 @Component({
   selector: 'app-update-nominee',
@@ -23,7 +24,8 @@ export class UpdateNomineePage implements OnInit {
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private nomineeService: NomineeService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private notService: NotificationHelperService
   ) {
     if(firebase.auth().currentUser == null){
       this.router.navigate(['/splash-screen']);
@@ -57,6 +59,7 @@ export class UpdateNomineePage implements OnInit {
   }
 
   confirmNomination() {
+    this.notService.presentLoadingForNomination();
     this.nomineeService.updateNomineeCount(this.nomineeId, this.newNom, this.newNomCount.toString());
   }
 }

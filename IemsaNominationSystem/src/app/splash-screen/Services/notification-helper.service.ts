@@ -48,6 +48,17 @@ export class NotificationHelperService {
     await loading.present();
 
     const { role, data } = await loading.onDidDismiss();
-    console.log('Loading dismissed!');
   }
+
+    // Presenting a progress bar
+    async presentLoadingForNomination() {
+      const loading = await this.loadingController.create({
+        cssClass: 'my-custom-class',
+        message: 'Nominating User...',
+        duration: 3000,
+        spinner: 'bubbles',
+        translucent: true
+      });
+      await loading.present();
+    }
 }
